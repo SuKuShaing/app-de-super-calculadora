@@ -1,29 +1,20 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+// _layout.tsx está esperando un componente por defecto
+// se le coloca RootLayout porque es la base y todos pasarán por ahí
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// la carpeta app es la carpeta de rutas y los componentes no van con mayúsculas al inicio
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+import { Slot } from 'expo-router'
+import { Text, View } from 'react-native'
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
-
+const RootLayout = () => {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <View>
+      <Text>Header</Text>
+
+      <Slot />
+      <Text>Footer</Text>
+    </View>
+  )
 }
+
+export default RootLayout
