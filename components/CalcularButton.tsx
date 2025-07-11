@@ -7,7 +7,6 @@ import { Platform, Pressable, Text } from "react-native";
 const isAndroid = Platform.OS === "android";
 if (isAndroid) {
 	NavigationBar.setBackgroundColorAsync("black"); // solo para Android
-	NavigationBar.setBorderColorAsync("red");
 }
 
 interface Props {

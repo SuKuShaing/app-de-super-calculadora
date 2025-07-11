@@ -27,7 +27,7 @@ const RootLayout = () => {
 			*/}
 			<Slot />
 
-			<StatusBar style="light" />
+			<StatusBar style="light"/>
 			{/* StatusBar, para que se vea la Barra de Status del dispositivo */}
 		</View>
 	);
