@@ -1,9 +1,14 @@
 import { Colors } from "@/constants/Colors";
 import { globalStyles } from "@/styles/global-styles";
 import * as Haptics from "expo-haptics";
-import { Pressable, Text } from "react-native";
+import * as NavigationBar from "expo-navigation-bar";
+import { Platform, Pressable, Text } from "react-native";
 
-
+const isAndroid = Platform.OS === "android";
+if (isAndroid) {
+	NavigationBar.setBackgroundColorAsync("black"); // solo para Android
+	NavigationBar.setBorderColorAsync("red");
+}
 
 interface Props {
 	label: string;
@@ -29,7 +34,10 @@ const CalcularButton = ({
 				width: doubleSize ? 180 : 80,
 			})}
 			// {...globalStyles.buttonText, se coloca primero, entonces al llegar los props de color sobre escriben los valores que globalStyles trajo}
-			onPress={() => Haptics.selectionAsync()}
+			onPress={() => {
+				Haptics.selectionAsync(),
+				onPress?.();
+			}}
 		>
 			<Text
 				style={{
