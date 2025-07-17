@@ -24,9 +24,7 @@ const CalculatorApp = () => {
 					label="C"
 					blackText
 					color={Colors.lightGray}
-					onPress={() => {
-						"C";
-					}}
+					onPress={() => buildNumber("C")}
 				/>
 				<CalcularButton
 					label="+/-"
