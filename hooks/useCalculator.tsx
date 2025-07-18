@@ -11,11 +11,20 @@ export const useCalculator = () => {
 	const [formula, setFormula] = useState<string>("0"); // Formula que se muestra en la pantalla
 	const [number, setNumber] = useState<string>("0"); // Número actual
 	const [prevNumber, setPrevNumber] = useState<string>("0"); // Número previo
-	const lastOperation = useRef<Operator>(); // useRef almacena valores mutables sin generar re-render del componente
+	const lastOperation = useRef<Operator | undefined>(undefined); // useRef almacena valores mutables sin generar re-render del componente
+
+	useEffect(() => {
+		if( lastOperation.current ) {
+			const firstFormulaPart = formula.split(' ').at(0);
+			setFormula(`${firstFormulaPart} ${lastOperation.current} ${number}`)
+		} else {
+			setFormula(number);
+		}
+	}, [number]);
 
 	useEffect(() => {
 		// ToDo: Calcular el subResultado
-		setFormula(number);
+		// setFormula(number);
 	}, [number]);
 
 	const clean = () => {
@@ -44,6 +53,37 @@ export const useCalculator = () => {
 
 		return setNumber(number.slice(0, -1));
 	};
+
+	const setLastNumber = () => {
+		if ( number.endsWith('.')) {
+			setPrevNumber(number.slice(0,-1))
+		}
+		
+		// to do, calculate resultate
+
+		setPrevNumber(number)
+		setNumber('0')
+	}
+
+	const divideOperation = () => {
+		setLastNumber();
+		lastOperation.current = Operator.divide;
+	}
+
+	const multiplyOperation = () => {
+		setLastNumber();
+		lastOperation.current = Operator.multiply;
+	}
+
+	const addOperation = () => {
+		setLastNumber();
+		lastOperation.current = Operator.add;
+	}
+
+	const substractOperation = () => {
+		setLastNumber();
+		lastOperation.current = Operator.substract;
+	}
 
 	const buildNumber = (numberString: string) => {
         console.log(numberString);
@@ -93,5 +133,9 @@ export const useCalculator = () => {
 		clean,
 		toggleSing,
 		deleteLast,
+		divideOperation,
+		multiplyOperation,
+		addOperation,
+		substractOperation,
 	};
 };
