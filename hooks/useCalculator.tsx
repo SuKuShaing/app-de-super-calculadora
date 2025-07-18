@@ -18,16 +18,35 @@ export const useCalculator = () => {
 		setFormula(number);
 	}, [number]);
 
-	const buildNumber = (numberString: string) => {
-        console.log(numberString);
+	const clean = () => {
+		setNumber("0");
+		setPrevNumber("0");
+		setFormula("0");
+		lastOperation.current = undefined;
+	};
 
-        if (numberString === "C") {
-			setNumber("0");
-			setPrevNumber("0");
-			setFormula("0");
-			return;
+	const toggleSing = () => {
+		if (number.startsWith('-')) {
+			return setNumber(number.replace('-',''));
+		};
+
+		return setNumber('-' + number);
+	};
+
+	const deleteLast = () => {
+		if (number.length === 2 && number.startsWith("-")) {
+			return setNumber("0");
 		}
 
+		if (number.length === 1) {
+			return setNumber("0");
+		}
+
+		return setNumber(number.slice(0, -1));
+	};
+
+	const buildNumber = (numberString: string) => {
+        console.log(numberString);
 
 		// Verificar sí ya existe un punto decimal
 		if (number.includes(".") && numberString === ".") return;
@@ -43,6 +62,11 @@ export const useCalculator = () => {
 			// if (numberString === "0" && number.includes(".")) {
 			// 	return setNumber(number + numberString);
 			// }
+
+            // Evaluar sí es diferente de cero, no hay punto y es el primer número
+			if (numberString !== "0" && number.startsWith("-0") && !number.includes(".")) {
+				return setNumber("-" + numberString);
+			}
 
             // Evaluar sí es diferente de cero, no hay punto y es el primer número
 			if (numberString !== "0" && !number.includes(".")) {
@@ -66,5 +90,8 @@ export const useCalculator = () => {
 
 		// Methods
 		buildNumber,
+		clean,
+		toggleSing,
+		deleteLast,
 	};
 };
